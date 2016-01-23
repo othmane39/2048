@@ -1,0 +1,13 @@
+score.php and highscores.txt must be put in a apache server.
+chmod 666 the highscores.txt file.
+
+This API allows 3 commands:
+1. http://host/score.php?command=isHighScore&score={scoreToCheck}
+   Prints TRUE if {scoreToCheck} is a highscore. 
+   Prints FALSE if not.
+
+2. http://host/score.php?command=submit&score={newScore}
+   Prints SCORE_RECEIVED if {newScore} is received. This also add it to highscores if it's a record.
+
+3. http://host/score.php?command=getHighScores
+   Prints the actual highscores separated with ';' charter.

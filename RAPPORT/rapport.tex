@@ -1,0 +1,93 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+
+\title{Rapport sur projet 2048}
+\author{Thomas LE QUEREC, Othmane ELMASSARI, Antton NEGUELOUA}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  L'objectif de ce projet est de programmer grâce au langage C une version ncurse et une version graphique avec sdl du jeu 2048.
+Un autre objectif de se projet est de se sensibiliser avec la correction de code en étudiant le travail d'autre groupe.
+Enfin il nous a été demandé de fournir deux programme qui "jouent" au jeu afin d'obtenir le score le plus élevé possible à chaque essaie.
+\end{abstract}
+
+\tableofcontents
+
+\section{Conception du projet}
+\subsection{Choix de la méthodologie de travail}
+\subsubsection{Le processus incrémental}
+Après une première lecture du sujet, nous nous sommes rendus compte que à la vue des échéances programmées et des éléments à fournir à chaque étape, il serait judicieux de travailler de manière incrémentale. C'est à dire, de faire l'analyse, la conception et la réalisation de chaque parties indépendamment et au fur et à mesure.
+
+Ce rapport décrit les étapes d'avancement du projet dans l'ordre dans lequel nous les avons effectuées.
+\subsubsection{Compilation du projet : CMake}
+Pour gérer la compilation et l'installation de l'exécutable, nous avons utilisé CMake\footnote{Site officiel : http://www.cmake.org/}. Ces derniers nous permette de générer facilement l'exécutable du jeu. 
+Il a aussi l'avantage d'être modulaire, ce qui nous a permit d'ajouter chaque parties au fur et a mesure tout en gardant un dossier de projet bien structuré.
+
+\subsection{Gestion de projet}
+\subsubsection{Répartition du travail}
+La répartition du travail est surement un des points les plus important d'un projet de groupe. Il faut une bonne organisation pour séparer le travail qui peut être effectué chacun de notre coté et celui qui nécessite la présence de plusieurs membres du groupe. Ensuite il faut jouer avec les disponibilités des uns et des autres pour être le plus efficace possible.
+
+Pour ce qui est de notre choix de répartition de travail on s'est organisé différemment au fil du projet, au fur est à mesure, qu'on a appris à se connaitre, qu'on a maitrisé les outils de travail en groupe.\\
+Au début on s'est dispatcher avec un binôme qui travaillait sur l'implementation de grid et l'autre membre qui a commencé les bases du main de la versions NCurses, celles qui ont permis de surtout tester l'implementation.
+\\Par la suite l'organisation a complètement changé, lorsqu'on s'est familiarisé avec l'outil svn. Grâce à svn on s'est retrouvé tous autonome et le fait de se voir uniquement en cours pour faire le point, a suffit à la bonne avancé du projet.
+
+Le seul moment on nous n'étions pas bien organisé, a été pour la phase de la stratégie, notamment du au fait qu'on a eu beaucoup de travail autre que ce projet à ce moment la. Malgré tout le travail demandé a été rendu dans les temps. On peu positiver en disant que ça a été formateur de se trouver un peu en difficulté à un moment.
+\subsubsection{Système de versionnage du projet : SVN}
+Pour gérer les fichiers constituant le projet, nous avons opté pour un dépôt SVN\footnote{SVN : Apache Subversion, site officiel : https://subversion.apache.org/} pour diverses raisons. Tout d'abord, parcequ'il convient pour la gestion de fichiers d'un projet de programmation, ensuite, parcequ'il permet de gérer facilement les différentes versions d'un même fichier, et en garde un historique. Enfin, parcequ'on avait le droit à un dépôt sur les serveurs du CREMI, et ce avec plusieurs membres.
+
+L'adresse de notre dépôt : https://services.emi.u-bordeaux.fr/projet/viewvc/projet-2048.
+
+\section{Réalisation du projet}
+\subsection{La bibliothèque grid}
+Pour ce qui est du module grid, cela ne nous a pas posé de gros soucis. Le sujet se trouvait dans la continuités des notions vu en C au premier semestre.
+Nous nous somme servi d'un module file, que nous avons implémentés nous même, pour nous aider à gérer les fonctions de déplacement dans la grille (domove).
+
+Nous avons développé les fonctions de grid en faisant des tests unitaires, que nous avons développés au fur et à mesure. Le but étant de posséder un ensemble de tests permettant de tester au moins une fois chaque fonctions du module grid.
+
+\subsection{L'interface graphique avec la librairie NCurses}
+Dans la version NCurse, on s'est d'abord occupé du code permettant de représenté la grille sur le terminal. On a ensuite géré les inputs pour pouvoir effectuer les mouvements sur la grille. Cette étape nous a permis de tester notre implémentation de grid. Enfin, on s'est attardé sur des détailles dans le but d'améliorer l'expérience de l'utilisateur, ajout de couleur et de message d'accueil et de game over.
+
+
+\subsection{Les Intelligences Artificielles (IA)}
+Pour la version Fast de la stratégie, on a imaginé que chaque case a son propre coefficient de façon a ce que la meilleure position dans la grille du plus grand cube ait le plus grand coeff, et ainsi de suite, ainsi, avant chaque pas, on teste les quatre directions, et on choisi celle qui nous a permis d'avoir le plus de points en additionnant la multiplication de chaque coeff avec la valeur du cube en dessus.
+
+\subsection{L'interface graphique avec la librairie SDL}
+Une fois la version NCurse fonctionnel et satisfaisante, nous nous somme intéressé à la version graphique avec la bibliothèque SDL.\\
+Pour ce qui est de l'architecture de son développement, on s'est fixe 3 vues essentielles pour l'application, le menu d'accueil, le jeu et le game over. Et par convention, on a mis un système de boucle par indentation proposant une meilleure liberation de memoire et une implementation et disposition de surfaces plus lisible tout en offrant une gestion d'événements aussi simple que efficace.\\
+
+
+{\noindent{\large \textbf{En Bonus}}\\
+
+Nous avons ajouté une petite touche personnelle à cette partie SDL : une gestion du meilleur score en ligne.
+Pour cela nous avons codé un module score en C et une API\footnote{Plus d'informations : https://fr.wikipedia.org/wiki/Interface\_de\_programmation} minimaliste en pHp\footnote{Langage de programmation orienté web, site officiel : http://php.net/}. La partie C utilise la librairie cURL\footnote{Site officiel : http://curl.haxx.se/}.
+
+Quand une nouvelle partie est lancée avec la version SDL, et si une connection internet est disponible, le meilleur score est affiché. De même, si le meilleur score est battu, il est envoyé à l'API.
+
+\section{Bilan du projet}
+\subsection{Les problèmes rencontrés et leur résolution}
+Le seul vrai problème qu'on a eu a été qu'on a voulu implementer une fonction dir domove qui soit dynamique quelque soit la taille de la grille, on a alors pense a un module simple a importer qui est le module File, il implémente le comportement de la structure de données FIFO, ce qui nous a été très utile pour faire un parcours de liste tout en appliquant notre algorithme et sans se soucier de l'index des elements au tableau.
+
+Sinon on voulait faire quelque chose de bien! alors on s'est trop applique au niveau de la conception afin qu'on ne rencontre pas de problèmes au niveau de la réalisation.
+
+\subsection{Bilan des apprentissages}
+Il est toujours bon de dresser le un bilan des nouvelles choses que nous a appris ce projet:
+\begin{itemize}
+\item CMake : Nous avons appris a utiliser CMake sur un vrai projet, avec la gestion de plusieurs librairies inter-dépendantes, la gestion de plusieurs executables, ainsi que l'utilisation de CTest pour lancer les tests unitaires. 
+\item SVN : Même si nous avions déjà découvert l'outil en TD, l'utiliser pour un projet complet nous a permis de mieux le maitriser. Nous savons désormais l'utiliser sans se référer au support de cours.
+\item ncurses : Nous avons découvert cette librairie graphique, nous avons appris à l'utiliser pour faire une interface graphique minimaliste avec gestion des directions du clavier. Nous pourrons nous en servir pour faire des menus de programmes en C.
+\item SDL : Découverte de cette bibliothèque puissante. Même si nous n'en maîtrise pas toute les facettes, nous avons compris sa puissance et ses capacités. Nous pourrons nous en servir pour faire des applications graphiques un peu plus avancées.
+\item \LaTeX : Nous avons appris a utiliser cet outil, non pas directement en développant le projet, mais en faisant ce rapport.
+\item cURL : En bonus, nous avons découvert cette librairie qui nous a permit de faire un peu de réseau dans ce projet. Elle pourra nous permettre de faire des applications plus avancées, en lien avec les problématiques liées au réseau d'aujourd'hui.
+\end{itemize}
+
+\subsection{Avancement actuel du projet}
+Aujourd'hui, le projet a rempli tous les objectifs fixés au début de l'exercice. Nous avons une version NCurses et SDL parfaitement fonctionnelle.\\
+Pour ce qui est de la version NCurses, elle demeure dans un état ou l'amélioration est difficilement envisageable vu les contrainte fixés (utilisation du terminal).\\Par contre quelque modifications pourraient toujours être adoptés sur la version SDL. Ce projet n'est pas étrangé au concept d'amélioration continue.
+
+La version rendu est donc une version qui peut encore être amélioré mais qui répond à tous les critères fixés dans le cahier des charges et va même au delà de ces derniers.
+
+\end{document}
