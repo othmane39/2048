@@ -1,7 +1,10 @@
-**How to?**
-cmake .
-make install
-./bin/2048-x (where x= SDL || ncurses)
+#Dependencies
+curl, SDL, SDL_image, SDL_ttf
 
 
-**need: curl, SDL, SDL_image, SDL_ttf libs**
+#Instalation:
+'- cmake .  
+ - make install  
+ - ./bin/2048-x (where x= SDL || ncurses)  
+'
+
